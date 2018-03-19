@@ -179,5 +179,59 @@ namespace Sport4You.Areas.Admin.Controllers
 
            
         }
+
+
+        //GET Admin/Pages/PageDetails/id
+        public ActionResult PageDetails(int id)
+        {
+            //Declare PageVm
+            PageVM model;
+
+            using (DB db = new DB())
+            {
+                //Get the page
+                PageDTO dto = db.Pages.Find(id);
+
+
+                //Confirm page exists
+                if(dto == null)
+                {
+                    return Content("That page does not exist.");
+
+                }
+                else
+                {
+                    //init pagevm
+                    model = new PageVM(dto);
+                }
+              
+
+               
+
+            }
+
+
+            //return view with model
+            return View(model);
+        }
+
+        //DELETE Admin/Pages/DeletePage/id
+        public ActionResult DeletePage(int id)
+        {
+            //GET the page
+            using (DB db = new DB())
+            {
+                //Remove the page
+                PageDTO dto = db.Pages.Find(id);
+
+                // Save 
+                db.Pages.Remove(dto);
+                db.SaveChanges();
+                
+
+            }
+            //Redirect
+            return RedirectToAction("index");
+        }
     }
 }
