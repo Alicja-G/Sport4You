@@ -233,5 +233,37 @@ namespace Sport4You.Areas.Admin.Controllers
             //Redirect
             return RedirectToAction("index");
         }
+
+
+        //POST Admin/Pages/ReorderPages
+        [HttpPost]
+        public void ReorderPages(int[] id)
+        {
+            using (DB db = new DB())
+            {
+                //Set initial count
+                int count = 1;
+
+
+                //Declare PageDTO
+                PageDTO dto;
+
+
+                //Set sorting for each page
+                foreach (var pageId in id)
+                {
+                    dto = db.Pages.Find(pageId);
+                    dto.Sorting = count;
+
+                    db.SaveChanges();
+                    count++; 
+                }
+
+
+            }
+
+
+
+        }
     }
 }
